@@ -1,0 +1,13 @@
+platform :ios, '8.0'
+use_frameworks!
+
+target 'VXExample' do
+
+  pod 'ValueX',         :path => '..'
+
+end
+
+
+
+#pod install --verbose --no-repo-update      #安装命令
+#pod update --verbose --no-repo-update       #更新命令
