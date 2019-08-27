@@ -1,0 +1,16 @@
+PODS:
+  - ValueX (1.0)
+
+DEPENDENCIES:
+  - ValueX (from `..`)
+
+EXTERNAL SOURCES:
+  ValueX:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  ValueX: 7be55c9a88d6cca1fd64465d73e407db2e4dd4e6
+
+PODFILE CHECKSUM: 248792832f79d697a7f544298726aace3b092386
+
+COCOAPODS: 1.7.5
