@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.name = "ValueX"
   s.version = "1.0"
   s.summary = "实用的安全对象类型转换库"
-  s.homepage = "http://xaoxuu.com"
+  s.homepage = "https://xaoxuu.com/wiki/valuex"
   s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.author = { "xaoxuu" => "xaoxuu@gmail.com" }
   s.platform = :ios, "8.0"
