@@ -102,7 +102,6 @@
     NSNumber *d25 = [d2 numberForKey:@"deviceId"];
     NSString *d26 = [d2 stringForKey:@"deviceId"];
     NSLog(@"\n d21: %@,\n d22: %@,\n d23: %@,\n d24: %@,\n d25: %@,\n d26: %@", d21, d22, d23, d24, d25, d26);
-    
 }
 
 /**
