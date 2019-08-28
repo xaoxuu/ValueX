@@ -9,14 +9,16 @@
 #import "VXObject.h"
 #import "NSObject+ValueX.h"
 
-inline VXObject *ValueX(id obj) {
-    if ([obj isKindOfClass:NSData.class] || [obj isKindOfClass:NSArray.class] || [obj isKindOfClass:NSDictionary.class]) {
-        return [VXObject vxWithJsonWritingOptions:NSJSONWritingPrettyPrinted object:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
-            return obj;
-        }];
+
+NSErrorDomain const VXErrorDomain = @"https://xaoxuu.com/wiki/valuex";
+
+inline VXObject *ValueX(id <VXConvertable>obj) {
+    if ([obj respondsToSelector:@selector(vx)]) {
+        return obj.vx;
     } else {
-        return [VXObject vxWithIdResult:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
-            return obj;
+        return [VXObject objectWithObjectValue:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
+            *error = [NSError errorWithDomain:VXErrorDomain code:400 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@不是有效的VXConvertable类型", NSStringFromClass(obj.class)]}];
+            return nil;
         }];
     }
 }
@@ -87,14 +89,14 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
         if ([value isKindOfClass:NSArray.class]) {
             if (toClass == VXArray) {
                 return value;
-            } else {
+            } else if (toClass == VXSet) {
                 // NSArray => NSSet
                 return [NSSet setWithArray:value];
             }
         } else if ([value isKindOfClass:NSSet.class]) {
             if (toClass == VXSet) {
                 return value;
-            } else {
+            } else if (toClass == VXArray) {
                 // NSSet => NSArray
                 return arr;
             }
@@ -166,104 +168,42 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
 
 // MARK: 实例化
 
-/**
- 空的结果（失败，未知错误信息）
- 
- @param path 路径
- @return 结果
- */
-+ (instancetype)vxWithPath:(NSString *)path{
-    return [[self alloc] initWithPath:path];
-}
-- (instancetype)initWithPath:(NSString *)path{
-    if (self = [super init]) {
-        _path = path;
-    }
-    return self;
-}
-
-/**
- bool类型的结果
- 
- @param path 路径
- @param callback 回调
- @return 结果
- */
-+ (instancetype)vxWithPath:(NSString *)path boolResult:(BOOL (^)(NSError **error))callback{
-    return [[self alloc] initWithPath:path boolResult:callback];
-}
-- (instancetype)initWithPath:(NSString *)path boolResult:(BOOL (^)(NSError **error))callback{
-    if (self = [self initWithPath:path]) {
-        NSError *error = nil;
-        if (callback) {
-            _isSuccess = callback(&error);
-            _error = error;
-        }
-    }
-    return self;
-}
-
-/**
- id类型的结果
- 
- @param path 路径
- @param callback 回调
- @return 结果
- */
-+ (instancetype)vxWithPath:(NSString *)path idResult:(id (^)(NSError *__autoreleasing *))callback{
-    return [[self alloc] initWithPath:path idResult:callback];
-}
-- (instancetype)initWithPath:(NSString *)path idResult:(id (^)(NSError *__autoreleasing *))callback{
-    if (self = [self initWithIdResult:callback]) {
-        _path = path;
-        NSError *error = nil;
-        if (callback) {
-            _value = callback(&error);
-            _error = error;
-            _isSuccess = !error;
-        }
-    }
-    return self;
-}
-+ (instancetype)vxWithIdResult:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
++ (instancetype)objectWithObjectValue:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
     return [[self alloc] initWithIdResult:callback];
 }
 - (instancetype)initWithIdResult:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
-    if (self = [super init]) {
+    if (self = [self init]) {
         NSError *error = nil;
         if (callback) {
             _value = callback(&error);
-            _error = error;
-            _isSuccess = !error;
+            [self updateConvertResult:error];
         }
     }
     return self;
 }
-+ (instancetype)vxWithJsonWritingOptions:(NSJSONWritingOptions)opt object:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
-    return [[self alloc] initWithJsonObject:opt object:callback];
++ (instancetype)objectWithJsonWritingOptions:(NSJSONWritingOptions)opt objectValue:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
+    return [[self alloc] initWithJsonObject:opt objectValue:callback];
 }
-- (instancetype)initWithJsonObject:(NSJSONWritingOptions)opt object:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
+- (instancetype)initWithJsonObject:(NSJSONWritingOptions)opt objectValue:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
     if (self = [super init]) {
         NSError *error = nil;
         if (callback) {
             _value = callback(&error);
-            _error = error;
-            _isSuccess = !error;
+            [self updateConvertResult:error];
         }
     }
     return self;
 }
-+ (instancetype)vxWithJsonReadingOptions:(NSJSONReadingOptions)opt data:(NSData *(^)(NSError **error))callback{
-    return [[self alloc] initWithJsonReadingOptions:opt data:callback];
++ (instancetype)objectWithJsonReadingOptions:(NSJSONReadingOptions)opt dataValue:(NSData *(^)(NSError **error))callback{
+    return [[self alloc] initWithJsonReadingOptions:opt dataValue:callback];
 }
 
-- (instancetype)initWithJsonReadingOptions:(NSJSONReadingOptions)opt data:(NSData *(^)(NSError **error))callback{
+- (instancetype)initWithJsonReadingOptions:(NSJSONReadingOptions)opt dataValue:(NSData *(^)(NSError **error))callback{
     if (self = [super init]) {
         NSError *error = nil;
         if (callback) {
             _value = callback(&error);
-            _error = error;
-            _isSuccess = !error;
+            [self updateConvertResult:error];
         }
     }
     return self;
@@ -291,8 +231,7 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
 - (id)transform:(VXClass)toClass {
     NSError *error = nil;
     id result = transformValue(self.value, toClass, &error);
-    _error = error;
-    _isSuccess = !error;
+    [self updateConvertResult:error];
     return result;
 }
 
@@ -304,7 +243,7 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
  @param callback 回调
  @return 结果
  */
-- (instancetype)didComplete:(void (^)(BOOL success))callback{
+- (instancetype)didComplete:(void (^)(BOOL isSuccess))callback{
     if (callback) {
         callback(self.isSuccess);
     }
@@ -322,6 +261,11 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
         callback(self.error);
     }
     return self;
+}
+
+- (void)updateConvertResult:(NSError *)error {
+    _isSuccess = !error;
+    _error = error;
 }
 
 @end

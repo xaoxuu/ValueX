@@ -108,19 +108,24 @@ inline NSData *NSSafeData(NSData *obj) {
     }
 }
 
-
 @implementation NSString (VXObject)
 
 - (VXObject *)vx {
-    return self.vxWithOptions(NSJSONReadingMutableContainers);
+    return [self vxWithOptions:NSJSONReadingMutableContainers];
 }
 
-- (VXObject *(^)(NSJSONReadingOptions opt))vxWithOptions{
-    return ^VXObject *(NSJSONReadingOptions opt){
-        return [VXObject vxWithJsonReadingOptions:opt data:^NSData * _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
-            return [self dataUsingEncoding:NSUTF8StringEncoding];
-        }];
-    };
+- (VXObject *)vxWithOptions:(NSJSONReadingOptions)opt {
+    return [VXObject objectWithJsonReadingOptions:opt dataValue:^NSData * _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
+        return [self dataUsingEncoding:NSUTF8StringEncoding];
+    }];
+}
+
+@end
+
+@implementation NSNumber (VXObject)
+
+- (VXObject *)vx {
+    return self.stringValue.vx;
 }
 
 @end
@@ -128,15 +133,13 @@ inline NSData *NSSafeData(NSData *obj) {
 @implementation NSData (VXObject)
 
 - (VXObject *)vx {
-    return self.vxWithOptions(NSJSONReadingMutableContainers);
+    return [self vxWithOptions:NSJSONReadingMutableContainers];
 }
 
-- (VXObject *(^)(NSJSONReadingOptions opt))vxWithOptions{
-    return ^VXObject *(NSJSONReadingOptions opt){
-        return [VXObject vxWithJsonReadingOptions:opt data:^NSData * _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
-            return self;
-        }];
-    };
+- (VXObject *)vxWithOptions:(NSJSONReadingOptions)opt {
+    return [VXObject objectWithJsonReadingOptions:opt dataValue:^NSData * _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
+        return self;
+    }];
 }
 
 @end
@@ -145,15 +148,29 @@ inline NSData *NSSafeData(NSData *obj) {
 @implementation NSArray (VXObject)
 
 - (VXObject *)vx {
-    return self.vxWithOptions(NSJSONWritingPrettyPrinted);
+    return [self vxWithOptions:NSJSONWritingPrettyPrinted];
 }
 
-- (VXObject *(^)(NSJSONWritingOptions opt))vxWithOptions{
-    return ^VXObject *(NSJSONWritingOptions opt){
-        return [VXObject vxWithJsonWritingOptions:opt object:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
-            return self;
-        }];
-    };
+- (VXObject *)vxWithOptions:(NSJSONWritingOptions)opt {
+    return [VXObject objectWithJsonWritingOptions:opt objectValue:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
+        return self;
+    }];
+}
+
+
+@end
+
+
+@implementation NSSet (VXObject)
+
+- (VXObject *)vx {
+    return [self vxWithOptions:NSJSONWritingPrettyPrinted];
+}
+
+- (VXObject *)vxWithOptions:(NSJSONWritingOptions)opt {
+    return [VXObject objectWithJsonWritingOptions:opt objectValue:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
+        return self.allObjects;
+    }];
 }
 
 @end
@@ -162,15 +179,13 @@ inline NSData *NSSafeData(NSData *obj) {
 @implementation NSDictionary (VXObject)
 
 - (VXObject *)vx{
-    return self.vxWithOptions(NSJSONWritingPrettyPrinted);
+    return [self vxWithOptions:NSJSONWritingPrettyPrinted];
 }
 
-- (VXObject *(^)(NSJSONWritingOptions opt))vxWithOptions{
-    return ^VXObject *(NSJSONWritingOptions opt){
-        return [VXObject vxWithJsonWritingOptions:opt object:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
-            return self;
-        }];
-    };
+- (VXObject *)vxWithOptions:(NSJSONWritingOptions)opt {
+    return [VXObject objectWithJsonWritingOptions:opt objectValue:^id _Nonnull(NSError * _Nullable __autoreleasing * _Nullable error) {
+        return self;
+    }];
 }
 
 + (nullable instancetype)dictionaryWithJsonString:(NSString *)string{

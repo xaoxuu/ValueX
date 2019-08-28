@@ -8,18 +8,21 @@
 
 #import <Foundation/Foundation.h>
 @class VXObject;
+@protocol VXConvertable;
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-FOUNDATION_EXTERN VXObject *ValueX(id obj);
-
-@interface VXObject : NSObject
+FOUNDATION_EXTERN NSErrorDomain const VXErrorDomain;
 
 /**
- 路径
+ 内部调用obj.vx，推荐使用这种方式，可以有效避免崩溃
+
+ @param obj VXConvertable对象
+ @return VXObject
  */
-@property (copy, readonly, nonatomic) NSString *path;
+FOUNDATION_EXTERN VXObject *ValueX(id <VXConvertable>obj);
+
+@interface VXObject : NSObject
 
 /**
  结果：成功、失败
@@ -54,6 +57,13 @@ FOUNDATION_EXTERN VXObject *ValueX(id obj);
 - (nullable NSNumber *)numberValue;
 
 /**
+ 导出为NSData对象
+ 
+ @return NSData对象
+ */
+- (nullable NSData *)dataValue;
+
+/**
  导出为NSArray对象
  
  @return NSArray对象
@@ -74,48 +84,15 @@ FOUNDATION_EXTERN VXObject *ValueX(id obj);
  */
 - (nullable NSDictionary *)dictionaryValue;
 
-/**
- 导出为NSData对象
- 
- @return NSData对象
- */
-- (nullable NSData *)dataValue;
-
 // MARK: 实例化
 
 /**
- 空的结果（失败，未知错误信息）
- 
- @param path 路径
- @return 结果
- */
-+ (instancetype)vxWithPath:(NSString *)path;
-
-/**
- bool类型的结果
- 
- @param path 路径
- @param callback 回调
- @return 结果
- */
-+ (instancetype)vxWithPath:(NSString *)path boolResult:(BOOL (^)(NSError **error))callback;
-
-/**
- id类型的结果
- 
- @param path 路径
- @param callback 回调
- @return 结果
- */
-+ (instancetype)vxWithPath:(NSString *)path idResult:(id (^)(NSError **error))callback;
-
-/**
  id类型的结果
  
  @param callback 回调
  @return 结果
  */
-+ (instancetype)vxWithIdResult:(id (^)(NSError **error))callback;
++ (instancetype)objectWithObjectValue:(id (^)(NSError **error))callback;
 
 /**
  json对象转data
@@ -124,7 +101,7 @@ FOUNDATION_EXTERN VXObject *ValueX(id obj);
  @param callback 回调
  @return 结果
  */
-+ (instancetype)vxWithJsonWritingOptions:(NSJSONWritingOptions)opt object:(id (^)(NSError **error))callback;
++ (instancetype)objectWithJsonWritingOptions:(NSJSONWritingOptions)opt objectValue:(id (^)(NSError **error))callback;
 
 /**
  data转json对象
@@ -133,7 +110,7 @@ FOUNDATION_EXTERN VXObject *ValueX(id obj);
  @param callback 回调
  @return 结果
  */
-+ (instancetype)vxWithJsonReadingOptions:(NSJSONReadingOptions)opt data:(NSData *(^)(NSError **error))callback;
++ (instancetype)objectWithJsonReadingOptions:(NSJSONReadingOptions)opt dataValue:(NSData *(^)(NSError **error))callback;
 
 // MARK: - 解析
 
@@ -143,7 +120,7 @@ FOUNDATION_EXTERN VXObject *ValueX(id obj);
  @param callback 回调
  @return 结果
  */
-- (instancetype)didComplete:(void (^)(BOOL success))callback;
+- (instancetype)didComplete:(void (^)(BOOL isSuccess))callback;
 
 /**
  错误信息回调，只有当error有值时才会进入此回调

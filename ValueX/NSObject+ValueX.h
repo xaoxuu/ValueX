@@ -51,8 +51,10 @@ FOUNDATION_EXTERN NSDictionary * __nullable NSSafeDictionary(id obj);
  */
 FOUNDATION_EXTERN NSData * __nullable NSSafeData(id obj);
 
-
-@interface NSString (VXObject)
+/**
+ 可转换成VXObject
+ */
+@protocol VXConvertable <NSObject>
 
 /**
  转换成ValueX对象
@@ -60,68 +62,47 @@ FOUNDATION_EXTERN NSData * __nullable NSSafeData(id obj);
  @return ValueX对象
  */
 - (VXObject *)vx;
-
-/**
- 转换成ValueX对象
- 
- @return ValueX对象
- */
-- (VXObject *(^)(NSJSONReadingOptions opt))vxWithOptions;
 
 @end
 
-@interface NSData (VXObject)
+@protocol VXConvertableObject <VXConvertable>
 
 /**
  转换成ValueX对象
  
  @return ValueX对象
  */
-- (VXObject *)vx;
-
-/**
- 转换成ValueX对象
- 
- @return ValueX对象
- */
-- (VXObject *(^)(NSJSONReadingOptions opt))vxWithOptions;
+- (VXObject *)vxWithOptions:(NSJSONWritingOptions)opt;
 
 @end
 
-@interface NSArray (VXObject)
+@protocol VXConvertableData <VXConvertable>
 
 /**
  转换成ValueX对象
  
  @return ValueX对象
  */
-- (VXObject *)vx;
-
-/**
- 转换成ValueX对象
- 
- @return ValueX对象
- */
-- (VXObject *(^)(NSJSONWritingOptions opt))vxWithOptions;
+- (VXObject *)vxWithOptions:(NSJSONReadingOptions)opt;
 
 @end
 
-@interface NSDictionary (VXObject)
+@interface NSString (VXObject) <VXConvertableData>
+@end
 
-/**
- 转换成ValueX对象
- 
- @return ValueX对象
- */
-- (VXObject *)vx;
+@interface NSNumber (VXObject) <VXConvertable>
+@end
 
-/**
- 转换成ValueX对象
- 
- @return ValueX对象
- */
-- (VXObject *(^)(NSJSONWritingOptions opt))vxWithOptions;
+@interface NSData (VXObject) <VXConvertableData>
+@end
 
+@interface NSArray (VXObject) <VXConvertableObject>
+@end
+
+@interface NSSet (VCObject) <VXConvertableObject>
+@end
+
+@interface NSDictionary (VXObject) <VXConvertableObject>
 
 /**
  根据json字符串创建字典

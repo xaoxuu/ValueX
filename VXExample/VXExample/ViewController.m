@@ -29,14 +29,16 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
-    } else {
+    } else if (section == 1) {
         return 2;
+    } else {
+        return 6;
     }
 }
 
@@ -65,6 +67,24 @@
             cell.textLabel.text = nil;
             cell.detailTextLabel.text = nil;
         }
+    } else if (indexPath.section == 2) {
+        cell.textLabel.text = nil;
+        cell.detailTextLabel.text = nil;
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"ValueX(@\"123\")";
+        } else if (indexPath.row == 1) {
+            cell.textLabel.text = @"ValueX(@123)";
+        } else if (indexPath.row == 2) {
+            cell.textLabel.text = @"ValueX(data)";
+        } else if (indexPath.row == 3) {
+            cell.textLabel.text = @"ValueX(@[@2, @3, @4])";
+        } else if (indexPath.row == 4) {
+            cell.textLabel.text = @"ValueX(NSSet)";
+        } else if (indexPath.row == 5) {
+            cell.textLabel.text = @"ValueX(@{@\"name\": @\"Alex\"}})";
+        } else {
+            cell.textLabel.text = nil;
+        }
     }
     
     return cell;
@@ -81,6 +101,20 @@
             [self test1:@{@"age": @"23", @"userId": @"123123123", @"deviceId": @"<null>"}];
         } else if (indexPath.row == 1) {
             [self test2:@{@"name": @"Mr. Xu", @"info": @"{\n    \"age\" : \"23\",\n    \"userId\" : \"123123123\",\n    \"deviceId\" : \"<null>\"\n}"}];
+        }
+    } else if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            [self testValueX:@"123"];
+        } else if (indexPath.row == 1) {
+            [self testValueX:@123];
+        } else if (indexPath.row == 2) {
+            [self testValueX:[@"haha" dataUsingEncoding:NSUTF8StringEncoding]];
+        } else if (indexPath.row == 3) {
+            [self testValueX:@[@2, @3, @4]];
+        } else if (indexPath.row == 4) {
+            [self testValueX:[NSSet setWithArray:@[@2, @3, @4]]];
+        } else if (indexPath.row == 5) {
+            [self testValueX:@{@"name": @"Alex"}];
         }
     }
     
@@ -132,6 +166,20 @@
     // 获取其中的某个值
     NSDictionary *info = [dict dictionaryForKey:@"info"];
     NSLog(@"info: %@", info);
+}
+
+- (void)testValueX:(id <VXConvertable>)input {
+    VXObject *obj = [[ValueX(input) didComplete:^(BOOL isSuccess) {
+        NSLog(@"didComplete: %@", @(isSuccess));
+    }] didError:^(NSError * _Nullable error) {
+        NSLog(@"didError: %@", error.localizedDescription);
+    }];
+    NSLog(@"stringValue: %@", obj.stringValue);
+    NSLog(@"numberValue: %@", obj.numberValue);
+    NSLog(@"dataValue: %@", obj.dataValue);
+    NSLog(@"arrayValue: %@", obj.arrayValue);
+    NSLog(@"setValue: %@", obj.setValue);
+    NSLog(@"dictionaryValue: %@", obj.dictionaryValue);
 }
 
 @end
