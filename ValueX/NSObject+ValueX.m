@@ -76,22 +76,6 @@ inline NSNumber *NSSafeNumber(NSNumber *obj) {
     }
 }
 
-inline NSArray *NSSafeArray(NSArray *obj) {
-    if ([obj isKindOfClass:NSArray.class]) {
-        return obj;
-    } else {
-        return nil;
-    }
-}
-
-inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return obj;
-    } else {
-        return nil;
-    }
-}
-
 inline NSData *NSSafeData(NSData *obj) {
     if ([obj isKindOfClass:NSData.class]) {
         return obj;
@@ -105,6 +89,34 @@ inline NSData *NSSafeData(NSData *obj) {
         } else {
             return nil;
         }
+    }
+}
+
+inline NSArray *NSSafeArray(NSArray *obj) {
+    if ([obj isKindOfClass:NSArray.class]) {
+        return obj;
+    } else if ([obj isKindOfClass:NSSet.class]) {
+        return ((NSSet *)obj).allObjects;
+    } else {
+        return nil;
+    }
+}
+
+inline NSSet *NSSafeSet(NSSet *obj) {
+    if ([obj isKindOfClass:NSSet.class]) {
+        return obj;
+    } else if ([obj isKindOfClass:NSArray.class]) {
+        return [NSSet setWithArray:(NSArray *)obj];
+    } else {
+        return nil;
+    }
+}
+
+inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
+    if ([obj isKindOfClass:NSDictionary.class]) {
+        return obj;
+    } else {
+        return nil;
     }
 }
 

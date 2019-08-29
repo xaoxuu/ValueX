@@ -28,12 +28,28 @@ FOUNDATION_EXTERN NSString * __nullable NSSafeString(id obj);
 FOUNDATION_EXTERN NSNumber * __nullable NSSafeNumber(id obj);
 
 /**
+ 安全的NSData（NSData对象或者nil）
+ 
+ @param obj 目标对象
+ @return 安全对象
+ */
+FOUNDATION_EXTERN NSData * __nullable NSSafeData(id obj);
+
+/**
  安全的NSArray（NSArray对象或者nil）
  
  @param obj 目标对象
  @return 安全对象
  */
 FOUNDATION_EXTERN NSArray * __nullable NSSafeArray(id obj);
+
+/**
+ 安全的NSArray（NSArray对象或者nil）
+ 
+ @param obj 目标对象
+ @return 安全对象
+ */
+FOUNDATION_EXTERN NSSet * __nullable NSSafeSet(id obj);
 
 /**
  安全的NSDictionary（NSDictionary对象或者nil）
@@ -43,13 +59,6 @@ FOUNDATION_EXTERN NSArray * __nullable NSSafeArray(id obj);
  */
 FOUNDATION_EXTERN NSDictionary * __nullable NSSafeDictionary(id obj);
 
-/**
- 安全的NSData（NSData对象或者nil）
- 
- @param obj 目标对象
- @return 安全对象
- */
-FOUNDATION_EXTERN NSData * __nullable NSSafeData(id obj);
 
 /**
  可转换成VXObject
