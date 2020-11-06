@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   # pod trunk push ValueX.podspec
 
   s.name = "ValueX"
-  s.version = "1.1"
+  s.version = "1.2.0"
   s.summary = "实用的安全对象类型转换库"
   s.homepage = "https://xaoxuu.com/wiki/valuex"
   s.license = { :type => 'MIT', :file => 'LICENSE' }
