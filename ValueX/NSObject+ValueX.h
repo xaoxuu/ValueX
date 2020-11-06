@@ -111,7 +111,7 @@ FOUNDATION_EXTERN NSDictionary * __nullable NSSafeDictionary(id obj);
 @interface NSSet (VCObject) <VXConvertableObject>
 @end
 
-@interface NSDictionary (VXObject) <VXConvertableObject>
+@interface NSDictionary<KeyType, ObjectType> (VXObject) <VXConvertableObject>
 
 /**
  根据json字符串创建字典
@@ -126,28 +126,28 @@ FOUNDATION_EXTERN NSDictionary * __nullable NSSafeDictionary(id obj);
  
  @return 值
  */
-- (nullable NSDictionary *)dictionaryForKey:(NSString *)key;
+- (nullable NSDictionary *)dictionaryForKey:(KeyType<NSCopying>)key;
 
 /**
  解析dictionary中的array，返回值可能为空
  
  @return 值
  */
-- (nullable NSArray *)arrayForKey:(NSString *)key;
+- (nullable NSArray *)arrayForKey:(KeyType<NSCopying>)key;
 
 /**
  解析dictionary中的string，返回值可能为空
  
  @return 值
  */
-- (nullable NSString *)stringForKey:(NSString *)key;
+- (nullable NSString *)stringForKey:(KeyType<NSCopying>)key;
 
 /**
  解析dictionary中的number，返回值可能为空
  
  @return 值
  */
-- (nullable NSNumber *)numberForKey:(NSString *)key;
+- (nullable NSNumber *)numberForKey:(KeyType<NSCopying>)key;
 
 
 @end

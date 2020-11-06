@@ -36,7 +36,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return 2;
+        return 4;
     } else {
         return 6;
     }
@@ -63,6 +63,12 @@
         } else if (indexPath.row == 1) {
             cell.textLabel.text = @"测试2";
             cell.detailTextLabel.text = @"返回字典中含有json字符串";
+        } else if (indexPath.row == 2) {
+            cell.textLabel.text = @"测试3";
+            cell.detailTextLabel.text = @"嵌套调用";
+        } else if (indexPath.row == 3) {
+            cell.textLabel.text = @"测试4";
+            cell.detailTextLabel.text = @"嵌套调用(中间类型不匹配)";
         } else {
             cell.textLabel.text = nil;
             cell.detailTextLabel.text = nil;
@@ -101,6 +107,10 @@
             [self test1:@{@"age": @"23", @"userId": @"123123123", @"deviceId": @"<null>"}];
         } else if (indexPath.row == 1) {
             [self test2:@{@"name": @"Mr. Xu", @"info": @"{\n    \"age\" : \"23\",\n    \"userId\" : \"123123123\",\n    \"deviceId\" : \"<null>\"\n}"}];
+        } else if (indexPath.row == 2) {
+            [self test3:@{@"data":[NSNull null]}];
+        } else if (indexPath.row == 3) {
+            [self test3:@{@"data":@"null"}];
         }
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -166,6 +176,13 @@
     // 获取其中的某个值
     NSDictionary *info = [dict dictionaryForKey:@"info"];
     NSLog(@"info: %@", info);
+}
+
+- (void)test3:(NSDictionary *)dict {
+    // 嵌套
+    // NSString *token = [[obj objectForKey:@"data"] objectForKey:@"uploadToken"];
+    NSString *token = [[dict dictionaryForKey:@"data"] stringForKey:@"uploadToken"];
+    NSLog(@"token: %@", token);
 }
 
 - (void)testValueX:(id <VXConvertable>)input {

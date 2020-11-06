@@ -209,20 +209,20 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
     }
 }
 
-- (NSDictionary *)dictionaryForKey:(NSString *)key{
-    return key.length ? ValueX(self[key]).dictionaryValue : nil;
+- (NSDictionary *)dictionaryForKey:(id)key{
+    return key ? ValueX(self[key]).dictionaryValue : nil;
 }
 
-- (NSArray *)arrayForKey:(NSString *)key{
-    return key.length ? ValueX(self[key]).arrayValue : nil;
+- (NSArray *)arrayForKey:(id)key{
+    return key ? ValueX(self[key]).arrayValue : nil;
 }
 
-- (NSString *)stringForKey:(NSString *)key{
-    return key.length ? NSSafeString(ValueX(self[key]).stringValue) : nil;
+- (NSString *)stringForKey:(id)key{
+    return key ? NSSafeString(ValueX(self[key]).stringValue) : nil;
 }
 
-- (NSNumber *)numberForKey:(NSString *)key{
-    return key.length ? NSSafeNumber(self[key]) : nil;
+- (NSNumber *)numberForKey:(id)key{
+    return key ? NSSafeNumber(self[key]) : nil;
 }
 
 @end
