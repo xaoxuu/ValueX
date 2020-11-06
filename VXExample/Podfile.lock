@@ -1,5 +1,5 @@
 PODS:
-  - ValueX (1.1)
+  - ValueX (1.2.0)
 
 DEPENDENCIES:
   - ValueX (from `..`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  ValueX: 1280d56194059c75d00c7a02450f39a16f961246
+  ValueX: e2e490ac889794670d3be51eafa1e7ce74d6c4f7
 
 PODFILE CHECKSUM: 248792832f79d697a7f544298726aace3b092386
 
