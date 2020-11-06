@@ -6,8 +6,8 @@
 //  Copyright © 2019 Titan Studio. All rights reserved.
 //
 
-#import "VXObject.h"
-#import "NSObject+ValueX.h"
+#import <VXObject.h>
+#import <NSObject+ValueX.h>
 
 
 NSErrorDomain const VXErrorDomain = @"https://xaoxuu.com/wiki/valuex";

@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		32F1D3271BF219BBDAD42702 /* Pods_VXExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 969E8F2E7C112F8705EE09D7 /* Pods_VXExample.framework */; };
+		8ACFDB16A9888C1C1834C1A8 /* libPods-VXExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 480A4320D876A188E1FCF27A /* libPods-VXExample.a */; };
 		CD046F942314BF8200F42E53 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD046F932314BF8200F42E53 /* AppDelegate.m */; };
 		CD046F972314BF8200F42E53 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD046F962314BF8200F42E53 /* ViewController.m */; };
 		CD046F9A2314BF8200F42E53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD046F982314BF8200F42E53 /* Main.storyboard */; };
@@ -18,7 +18,7 @@
 
 /* Begin PBXFileReference section */
 		075D1FF4001152F45DFA1DB9 /* Pods-VXExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VXExample.release.xcconfig"; path = "Target Support Files/Pods-VXExample/Pods-VXExample.release.xcconfig"; sourceTree = "<group>"; };
-		969E8F2E7C112F8705EE09D7 /* Pods_VXExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VXExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		480A4320D876A188E1FCF27A /* libPods-VXExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VXExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD046F8F2314BF8200F42E53 /* VXExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VXExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD046F922314BF8200F42E53 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CD046F932314BF8200F42E53 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32F1D3271BF219BBDAD42702 /* Pods_VXExample.framework in Frameworks */,
+				8ACFDB16A9888C1C1834C1A8 /* libPods-VXExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,14 +50,13 @@
 				EA8608159C92F6DDFECF94E5 /* Pods-VXExample.debug.xcconfig */,
 				075D1FF4001152F45DFA1DB9 /* Pods-VXExample.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 		80CD263A19892F25A75EE7E6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				969E8F2E7C112F8705EE09D7 /* Pods_VXExample.framework */,
+				480A4320D876A188E1FCF27A /* libPods-VXExample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -107,7 +106,6 @@
 				CD046F8B2314BF8200F42E53 /* Sources */,
 				CD046F8C2314BF8200F42E53 /* Frameworks */,
 				CD046F8D2314BF8200F42E53 /* Resources */,
-				321F7DCECBF3BD13299F0411 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -124,7 +122,7 @@
 		CD046F872314BF8200F42E53 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Titan Studio";
 				TargetAttributes = {
 					CD046F8E2314BF8200F42E53 = {
@@ -164,23 +162,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		321F7DCECBF3BD13299F0411 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VXExample/Pods-VXExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VXExample/Pods-VXExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VXExample/Pods-VXExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		79F08A9D7ACE7985DC5C1E35 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,6 +245,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -289,7 +271,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -323,6 +305,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -342,7 +325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

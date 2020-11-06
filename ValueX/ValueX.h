@@ -22,5 +22,5 @@ FOUNDATION_EXPORT const unsigned char ValueXVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <ValueX/PublicHeader.h>
 
 
-#import "VXObject.h"
-#import "NSObject+ValueX.h"
+#import <VXObject.h>
+#import <NSObject+ValueX.h>

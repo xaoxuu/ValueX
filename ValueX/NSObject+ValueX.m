@@ -6,8 +6,8 @@
 //  Copyright © 2019 Titan Studio. All rights reserved.
 //
 
-#import "NSObject+ValueX.h"
-#import "VXObject.h"
+#import <NSObject+ValueX.h>
+#import <VXObject.h>
 
 static inline BOOL isNullStr(id obj) {
     if ([obj isKindOfClass:NSString.class] && ((NSString *)obj).length <= 8) {
