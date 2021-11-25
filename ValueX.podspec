@@ -4,11 +4,11 @@ Pod::Spec.new do |s|
   # pod trunk push ValueX.podspec
 
   s.name = "ValueX"
-  s.version = "1.2.0"
+  s.version = "1.3.0"
   s.summary = "实用的安全对象类型转换库"
   s.homepage = "https://xaoxuu.com/wiki/valuex"
   s.license = { :type => 'MIT', :file => 'LICENSE' }
-  s.author = { "xaoxuu" => "xaoxuu@gmail.com" }
+  s.author = { "xaoxuu" => "git@xaoxuu.com" }
   s.platform = :ios, "9.0"
   s.ios.deployment_target = '9.0'
 

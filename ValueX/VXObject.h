@@ -125,7 +125,7 @@ FOUNDATION_EXTERN VXObject *ValueX(id <VXConvertable>obj);
 /**
  json对象转data
  
- @param opt options
+ @param opts options
  @param callback 回调
  @return 结果
  */
@@ -134,7 +134,7 @@ FOUNDATION_EXTERN VXObject *ValueX(id <VXConvertable>obj);
 /**
  data转json对象
  
- @param opt options
+ @param opts options
  @param callback 回调
  @return 结果
  */
