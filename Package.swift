@@ -6,12 +6,15 @@ let package = Package(
     name: "ValueX",
     platforms: [.iOS(.v9)],
     products: [
-        .library(name: "ValueX", targets: ["ValueX"])
+        .library(name: "ValueXObjC", targets: ["ValueXObjC"]),
+        .library(name: "ValueXSwift", targets: ["ValueXSwift"])
     ],
     targets: [
         .target(
-            name: "ValueX",
-            path: "ValueX"
+            name: "ValueXObjC"
+        ),
+        .target(
+            name: "ValueXSwift"
         )
     ],
     

@@ -12,6 +12,7 @@
 		CD046F802314BD6700F42E53 /* NSObject+ValueX.m in Sources */ = {isa = PBXBuildFile; fileRef = CD046F7E2314BD6700F42E53 /* NSObject+ValueX.m */; };
 		CD046F832314BDA200F42E53 /* VXObject.h in Headers */ = {isa = PBXBuildFile; fileRef = CD046F812314BDA200F42E53 /* VXObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD046F842314BDA200F42E53 /* VXObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CD046F822314BDA200F42E53 /* VXObject.m */; };
+		CD18F2B5274F98FD00AF094B /* SwiftUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD18F2AD274F98FD00AF094B /* SwiftUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		CD046F812314BDA200F42E53 /* VXObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VXObject.h; sourceTree = "<group>"; };
 		CD046F822314BDA200F42E53 /* VXObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VXObject.m; sourceTree = "<group>"; };
 		CD046F852314BF4400F42E53 /* ValueX.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ValueX.podspec; sourceTree = "<group>"; };
+		CD18F2AD274F98FD00AF094B /* SwiftUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				CD046F852314BF4400F42E53 /* ValueX.podspec */,
+				CD18F2AB274F98FD00AF094B /* Sources */,
 				CD046F742314BD4600F42E53 /* ValueX */,
 				CD046F732314BD4600F42E53 /* Products */,
 			);
@@ -56,14 +59,46 @@
 		CD046F742314BD4600F42E53 /* ValueX */ = {
 			isa = PBXGroup;
 			children = (
-				CD046F752314BD4600F42E53 /* ValueX.h */,
-				CD046F7D2314BD6700F42E53 /* NSObject+ValueX.h */,
-				CD046F7E2314BD6700F42E53 /* NSObject+ValueX.m */,
-				CD046F812314BDA200F42E53 /* VXObject.h */,
-				CD046F822314BDA200F42E53 /* VXObject.m */,
 				CD046F762314BD4600F42E53 /* Info.plist */,
 			);
 			path = ValueX;
+			sourceTree = "<group>";
+		};
+		CD18F2AB274F98FD00AF094B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CD18F2AC274F98FD00AF094B /* ValueXSwift */,
+				CD18F2AE274F98FD00AF094B /* ValueXObjC */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		CD18F2AC274F98FD00AF094B /* ValueXSwift */ = {
+			isa = PBXGroup;
+			children = (
+				CD18F2AD274F98FD00AF094B /* SwiftUtils.swift */,
+			);
+			path = ValueXSwift;
+			sourceTree = "<group>";
+		};
+		CD18F2AE274F98FD00AF094B /* ValueXObjC */ = {
+			isa = PBXGroup;
+			children = (
+				CD046F7E2314BD6700F42E53 /* NSObject+ValueX.m */,
+				CD046F822314BDA200F42E53 /* VXObject.m */,
+				CD18F2AF274F98FD00AF094B /* include */,
+			);
+			path = ValueXObjC;
+			sourceTree = "<group>";
+		};
+		CD18F2AF274F98FD00AF094B /* include */ = {
+			isa = PBXGroup;
+			children = (
+				CD046F752314BD4600F42E53 /* ValueX.h */,
+				CD046F7D2314BD6700F42E53 /* NSObject+ValueX.h */,
+				CD046F812314BDA200F42E53 /* VXObject.h */,
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +184,7 @@
 			files = (
 				CD046F842314BDA200F42E53 /* VXObject.m in Sources */,
 				CD046F802314BD6700F42E53 /* NSObject+ValueX.m in Sources */,
+				CD18F2B5274F98FD00AF094B /* SwiftUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +333,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -323,6 +360,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
