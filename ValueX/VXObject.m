@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, VXClass) {
     VXData
 };
 
-static inline id transformValue(id value, VXClass toClass, NSError **error) {
+static inline id transformValue(id value, VXClass toClass, NSError **error, NSJSONReadingOptions readingOpts, NSJSONWritingOptions writingOpts) {
     if ([value isKindOfClass:NSNull.class]) {
         return nil;
     } else if ([value isKindOfClass:NSString.class]) {
@@ -50,7 +50,7 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
         } else if (toClass == VXArray || toClass == VXSet || toClass == VXDictionary) {
             // => NSArray/NSSet/NSDictionary
             NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-            id ret = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:error];
+            id ret = [NSJSONSerialization JSONObjectWithData:data options:readingOpts error:error];
             if ([ret isKindOfClass:[NSArray class]]) {
                 if (toClass == VXArray) {
                     // => NSArray
@@ -104,7 +104,7 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
         if (toClass == VXData || toClass == VXString) {
             // => NSData/NSString
             if ([NSJSONSerialization isValidJSONObject:arr]) {
-                NSData *data = [NSJSONSerialization dataWithJSONObject:arr options:NSJSONWritingPrettyPrinted error:error];
+                NSData *data = [NSJSONSerialization dataWithJSONObject:arr options:writingOpts error:error];
                 if (toClass == VXData) {
                     return data;
                 } else if (toClass == VXString) {
@@ -119,7 +119,7 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
         } else if (toClass == VXData || toClass == VXString) {
             // => NSData/NSString
             if ([NSJSONSerialization isValidJSONObject:value]) {
-                NSData *data = [NSJSONSerialization dataWithJSONObject:value options:NSJSONWritingPrettyPrinted error:error];
+                NSData *data = [NSJSONSerialization dataWithJSONObject:value options:writingOpts error:error];
                 if (toClass == VXData) {
                     return data;
                 } else if (toClass == VXString) {
@@ -145,7 +145,7 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
             return data;
         } else if (toClass == VXArray || toClass == VXSet || toClass == VXDictionary) {
             // => NSArray/NSSet/NSDictionary
-            id ret = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:error];
+            id ret = [NSJSONSerialization JSONObjectWithData:data options:readingOpts error:error];
             if ([ret isKindOfClass:[NSArray class]]) {
                 if (toClass == VXArray) {
                     // => NSArray
@@ -181,8 +181,8 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
     }
     return self;
 }
-+ (instancetype)objectWithJsonWritingOptions:(NSJSONWritingOptions)opt objectValue:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
-    return [[self alloc] initWithJsonObject:opt objectValue:callback];
++ (instancetype)objectWithJsonWritingOptions:(NSJSONWritingOptions)opts objectValue:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
+    return [[self alloc] initWithJsonObject:opts objectValue:callback];
 }
 - (instancetype)initWithJsonObject:(NSJSONWritingOptions)opt objectValue:(id  _Nonnull (^)(NSError * _Nullable __autoreleasing * _Nullable))callback{
     if (self = [super init]) {
@@ -194,11 +194,11 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
     }
     return self;
 }
-+ (instancetype)objectWithJsonReadingOptions:(NSJSONReadingOptions)opt dataValue:(NSData *(^)(NSError **error))callback{
-    return [[self alloc] initWithJsonReadingOptions:opt dataValue:callback];
++ (instancetype)objectWithJsonReadingOptions:(NSJSONReadingOptions)opts dataValue:(NSData *(^)(NSError **error))callback{
+    return [[self alloc] initWithJsonReadingOptions:opts dataValue:callback];
 }
 
-- (instancetype)initWithJsonReadingOptions:(NSJSONReadingOptions)opt dataValue:(NSData *(^)(NSError **error))callback{
+- (instancetype)initWithJsonReadingOptions:(NSJSONReadingOptions)opts dataValue:(NSData *(^)(NSError **error))callback{
     if (self = [super init]) {
         NSError *error = nil;
         if (callback) {
@@ -212,11 +212,24 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
 - (NSString *)stringValue {
     return [self transform:VXString];
 }
+- (nullable NSString *)stringValueWithOptions:(NSJSONWritingOptions)opts {
+    return [self transform:VXString readingOptions:kNilOptions writingOptions:opts];
+}
+- (NSString *)stringValueForPrint {
+    if (@available(iOS 13.0, *)) {
+        return [self stringValueWithOptions:NSJSONWritingPrettyPrinted|NSJSONWritingWithoutEscapingSlashes];
+    } else {
+        return [self stringValueWithOptions:NSJSONWritingPrettyPrinted];
+    }
+}
 - (NSNumber *)numberValue {
     return [self transform:VXNumber];
 }
 - (NSArray *)arrayValue {
     return [self transform:VXArray];
+}
+- (NSArray *)arrayValueWithOptions:(NSJSONReadingOptions)opts {
+    return [self transform:VXArray readingOptions:opts writingOptions:kNilOptions];
 }
 - (NSSet *)setValue {
     return [self transform:VXSet];
@@ -224,13 +237,20 @@ static inline id transformValue(id value, VXClass toClass, NSError **error) {
 - (NSDictionary *)dictionaryValue {
     return [self transform:VXDictionary];
 }
+- (NSDictionary *)dictionaryValueWithOptions:(NSJSONReadingOptions)opts {
+    return [self transform:VXDictionary readingOptions:opts writingOptions:kNilOptions];
+}
 - (NSData *)dataValue {
     return [self transform:VXData];
 }
 
 - (id)transform:(VXClass)toClass {
+    return [self transform:toClass readingOptions:kNilOptions writingOptions:kNilOptions];
+}
+
+- (id)transform:(VXClass)toClass readingOptions:(NSJSONReadingOptions)readingOptions writingOptions:(NSJSONWritingOptions)writingOptions {
     NSError *error = nil;
-    id result = transformValue(self.value, toClass, &error);
+    id result = transformValue(self.value, toClass, &error, readingOptions, writingOptions);
     [self updateConvertResult:error];
     return result;
 }

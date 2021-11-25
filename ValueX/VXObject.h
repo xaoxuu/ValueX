@@ -43,46 +43,74 @@ FOUNDATION_EXTERN VXObject *ValueX(id <VXConvertable>obj);
 @property (strong, readonly, nullable, nonatomic) id value;
 
 /**
- 导出为NSString对象
+ 输出NSString对象
  
  @return NSString对象
  */
 - (nullable NSString *)stringValue;
 
 /**
- 导出为NSNumber对象
+ 输出NSString对象
+ 
+ @return NSString对象
+ */
+- (nullable NSString *)stringValueWithOptions:(NSJSONWritingOptions)opts;
+
+/**
+ 输出用于打印的NSString对象
+ 
+ @return NSString对象
+ */
+- (nullable NSString *)stringValueForPrint;
+
+/**
+ 输出NSNumber对象
  
  @return NSNumber对象
  */
 - (nullable NSNumber *)numberValue;
 
 /**
- 导出为NSData对象
+ 输出NSData对象
  
  @return NSData对象
  */
 - (nullable NSData *)dataValue;
 
 /**
- 导出为NSArray对象
+ 输出NSArray对象
  
  @return NSArray对象
  */
 - (nullable NSArray *)arrayValue;
 
 /**
- 导出为NSSet对象
+ 输出NSArray对象（自定义NSJSONReadingOptions）
+ 
+ @return NSArray对象
+ */
+- (nullable NSArray *)arrayValueWithOptions:(NSJSONReadingOptions)opts;
+
+/**
+ 输出NSSet对象
  
  @return NSSet对象
  */
 - (nullable NSSet *)setValue;
 
 /**
- 导出为NSDictionary对象
+ 输出NSDictionary对象
  
  @return NSDictionary对象
  */
 - (nullable NSDictionary *)dictionaryValue;
+
+/**
+ 输出NSDictionary对象（自定义NSJSONReadingOptions）
+ 
+ @return NSDictionary对象
+ */
+- (nullable NSDictionary *)dictionaryValueWithOptions:(NSJSONReadingOptions)opts;
 
 // MARK: 实例化
 
@@ -101,7 +129,7 @@ FOUNDATION_EXTERN VXObject *ValueX(id <VXConvertable>obj);
  @param callback 回调
  @return 结果
  */
-+ (instancetype)objectWithJsonWritingOptions:(NSJSONWritingOptions)opt objectValue:(id (^)(NSError **error))callback;
++ (instancetype)objectWithJsonWritingOptions:(NSJSONWritingOptions)opts objectValue:(id (^)(NSError **error))callback;
 
 /**
  data转json对象
@@ -110,7 +138,7 @@ FOUNDATION_EXTERN VXObject *ValueX(id <VXConvertable>obj);
  @param callback 回调
  @return 结果
  */
-+ (instancetype)objectWithJsonReadingOptions:(NSJSONReadingOptions)opt dataValue:(NSData *(^)(NSError **error))callback;
++ (instancetype)objectWithJsonReadingOptions:(NSJSONReadingOptions)opts dataValue:(NSData *(^)(NSError **error))callback;
 
 // MARK: - 解析
 

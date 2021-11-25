@@ -36,7 +36,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return 4;
+        return 5;
     } else {
         return 6;
     }
@@ -69,6 +69,9 @@
         } else if (indexPath.row == 3) {
             cell.textLabel.text = @"测试4";
             cell.detailTextLabel.text = @"嵌套调用(中间类型不匹配)";
+        } else if (indexPath.row == 4) {
+            cell.textLabel.text = @"测试5";
+            cell.detailTextLabel.text = @"格式";
         } else {
             cell.textLabel.text = nil;
             cell.detailTextLabel.text = nil;
@@ -111,6 +114,8 @@
             [self test3:@{@"data":[NSNull null]}];
         } else if (indexPath.row == 3) {
             [self test3:@{@"data":@"null"}];
+        } else if (indexPath.row == 4) {
+            [self testFormat];
         }
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -197,6 +202,21 @@
     NSLog(@"arrayValue: %@", obj.arrayValue);
     NSLog(@"setValue: %@", obj.setValue);
     NSLog(@"dictionaryValue: %@", obj.dictionaryValue);
+}
+
+- (void)testFormat {
+    NSDictionary *d1 = @{@"name": @"Mr. \nXu", @"info": @{@"age":@123, @"uid": @"123/123"}};
+    NSLog(@"\nd1: %@", d1);
+    NSLog(@"\nd1.vx.stringValue: %@", d1.vx.stringValue);
+    NSLog(@"\nd1.vx.stringValue2: %@", d1.vx.stringValueForPrint);
+    NSLog(@"\nd1.vx.NSJSONWritingSortedKeys: %@", [d1.vx stringValueWithOptions:NSJSONWritingSortedKeys]);
+    NSLog(@"\nd1.vx.NSJSONWritingFragmentsAllowed: %@", [d1.vx stringValueWithOptions:NSJSONWritingFragmentsAllowed]);
+    if (@available(iOS 13.0, *)) {
+        NSLog(@"\nd1.vx.NSJSONWritingWithoutEscapingSlashes: %@", [d1.vx stringValueWithOptions:NSJSONWritingWithoutEscapingSlashes]);
+    } else {
+        // Fallback on earlier versions
+    }
+    
 }
 
 @end

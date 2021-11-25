@@ -123,7 +123,7 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
 @implementation NSString (VXObject)
 
 - (VXObject *)vx {
-    return [self vxWithOptions:NSJSONReadingMutableContainers];
+    return [self vxWithOptions:kNilOptions];
 }
 
 - (VXObject *)vxWithOptions:(NSJSONReadingOptions)opt {
@@ -145,7 +145,7 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
 @implementation NSData (VXObject)
 
 - (VXObject *)vx {
-    return [self vxWithOptions:NSJSONReadingMutableContainers];
+    return [self vxWithOptions:kNilOptions];
 }
 
 - (VXObject *)vxWithOptions:(NSJSONReadingOptions)opt {
@@ -160,7 +160,7 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
 @implementation NSArray (VXObject)
 
 - (VXObject *)vx {
-    return [self vxWithOptions:NSJSONWritingPrettyPrinted];
+    return [self vxWithOptions:kNilOptions];
 }
 
 - (VXObject *)vxWithOptions:(NSJSONWritingOptions)opt {
@@ -176,7 +176,7 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
 @implementation NSSet (VXObject)
 
 - (VXObject *)vx {
-    return [self vxWithOptions:NSJSONWritingPrettyPrinted];
+    return [self vxWithOptions:kNilOptions];
 }
 
 - (VXObject *)vxWithOptions:(NSJSONWritingOptions)opt {
@@ -191,7 +191,7 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
 @implementation NSDictionary (VXObject)
 
 - (VXObject *)vx{
-    return [self vxWithOptions:NSJSONWritingPrettyPrinted];
+    return [self vxWithOptions:kNilOptions];
 }
 
 - (VXObject *)vxWithOptions:(NSJSONWritingOptions)opt {
@@ -203,7 +203,7 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
 + (nullable instancetype)dictionaryWithJsonString:(NSString *)string{
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     if (data) {
-        return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     } else {
         return nil;
     }
