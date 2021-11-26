@@ -97,6 +97,10 @@ FOUNDATION_EXTERN NSDictionary * __nullable NSSafeDictionary(id obj);
 @end
 
 @interface NSString (VXObject) <VXConvertableData>
+
+/// 字符串长度不为0，则返回true
+- (BOOL)isNotEmpty;
+
 @end
 
 @interface NSNumber (VXObject) <VXConvertable>

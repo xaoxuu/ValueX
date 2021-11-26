@@ -217,6 +217,11 @@
         // Fallback on earlier versions
     }
     
+    NSString *str1 = @"";
+    NSString *str2 = @"0";
+    NSString *str3 = nil;
+    NSLog(@"%d %d %d %d", str1.isNotEmpty, str2.isNotEmpty, NSSafeString(str2).isNotEmpty, str3.isNotEmpty);
+    
 }
 
 @end

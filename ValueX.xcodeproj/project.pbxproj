@@ -94,9 +94,9 @@
 		CD18F2AF274F98FD00AF094B /* include */ = {
 			isa = PBXGroup;
 			children = (
-				CD046F752314BD4600F42E53 /* ValueX.h */,
 				CD046F7D2314BD6700F42E53 /* NSObject+ValueX.h */,
 				CD046F812314BDA200F42E53 /* VXObject.h */,
+				CD046F752314BD4600F42E53 /* ValueX.h */,
 			);
 			path = include;
 			sourceTree = "<group>";

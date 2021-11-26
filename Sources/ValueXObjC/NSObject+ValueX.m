@@ -132,6 +132,10 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
     }];
 }
 
+- (BOOL)isNotEmpty {
+    return self.length > 0;
+}
+
 @end
 
 @implementation NSNumber (VXObject)
