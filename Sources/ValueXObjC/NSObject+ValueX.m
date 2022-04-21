@@ -38,6 +38,25 @@ static inline NSNumber *numberValue(NSString *str) {
     }
 }
 
+static inline BOOL boolValue(id value, BOOL defaultValue) {
+    if ([value isKindOfClass:NSString.class]) {
+        NSString *lower = ((NSString *)value).lowercaseString;
+        if ([@[@"true", @"yes", @"1"] containsObject:lower]) {
+            return YES;
+        } else if ([@[@"false", @"no", @"0"] containsObject:lower]) {
+            return NO;
+        }
+    } else if ([value isKindOfClass:NSNumber.class]) {
+        NSNumber *number = value;
+        if ([number isEqualToNumber:@1]) {
+            return YES;
+        } else if ([number isEqualToNumber:@0]) {
+            return NO;
+        }
+    }
+    return defaultValue;
+}
+
 inline NSString *NSSafeString(id obj) {
     if ([obj isKindOfClass:NSString.class]) {
         if (isNullStr(obj)) {
@@ -223,6 +242,10 @@ inline NSDictionary *NSSafeDictionary(NSDictionary *obj) {
 
 - (NSNumber *)numberForKey:(id)key{
     return key ? NSSafeNumber(self[key]) : nil;
+}
+
+- (BOOL)boolForKey:(id<NSCopying>)key defaultValue:(BOOL)defaultValue {
+    return boolValue(self[key], defaultValue);
 }
 
 @end

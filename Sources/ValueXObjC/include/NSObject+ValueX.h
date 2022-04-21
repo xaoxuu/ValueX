@@ -153,6 +153,10 @@ FOUNDATION_EXTERN NSDictionary * __nullable NSSafeDictionary(id obj);
  */
 - (nullable NSNumber *)numberForKey:(KeyType<NSCopying>)key;
 
+/// 解析dictionary中的bool值
+/// @param key 键
+/// @param defaultValue 默认值
+- (BOOL)boolForKey:(KeyType<NSCopying>)key defaultValue:(BOOL)defaultValue;
 
 @end
 
