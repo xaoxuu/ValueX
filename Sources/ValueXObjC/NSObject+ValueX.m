@@ -11,11 +11,7 @@
 
 static inline BOOL isNullStr(id obj) {
     if ([obj isKindOfClass:NSString.class] && ((NSString *)obj).length <= 8) {
-        static NSArray<NSString *> *nullArray = nil;
-        if (!nullArray) {
-            nullArray = @[@"<null>", @"(null)", @"null", @"<nil>", @"(nil)", @"nil", @"<nsnull>", @"(nsnull)", @"nsnull"];
-        }
-        if ([nullArray containsObject:((NSString *)obj).lowercaseString]) {
+        if ([@[@"", @"<null>", @"(null)", @"null", @"<nil>", @"(nil)", @"nil", @"<nsnull>", @"(nsnull)", @"nsnull"] containsObject:((NSString *)obj).lowercaseString]) {
             return YES;
         }
     }
