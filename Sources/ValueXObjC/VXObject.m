@@ -210,7 +210,11 @@ static inline id transformValue(id value, VXClass toClass, NSError **error, NSJS
 }
 
 - (NSString *)stringValue {
-    return [self transform:VXString];
+    if (@available(iOS 13.0, *)) {
+        return [self stringValueWithOptions:NSJSONWritingWithoutEscapingSlashes];
+    } else {
+        return [self stringValueWithOptions:kNilOptions];
+    }
 }
 - (nullable NSString *)stringValueWithOptions:(NSJSONWritingOptions)opts {
     return [self transform:VXString readingOptions:kNilOptions writingOptions:opts];
